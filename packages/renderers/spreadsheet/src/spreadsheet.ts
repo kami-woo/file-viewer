@@ -1537,6 +1537,7 @@ const renderFileViewerSpreadsheet = async (
       endRow,
       direction: scrollDirection,
       totalRows: virtualState.totalRows,
+      merges: virtualState.mergeStartMap.values(),
     }).forEach(windowStart => requestWindow(windowStart, true));
   };
 

@@ -79,6 +79,7 @@ interface CollectWindowStartsOptions {
   direction: ScrollDirection
   endRow: number
   far?: boolean
+  merges?: Iterable<{ row: number; rowspan: number }>
   startRow: number
   totalRows: number
 }
@@ -148,7 +149,8 @@ export const collectWindowStarts = ({
   endRow,
   direction,
   totalRows,
-  far = false
+  far = false,
+  merges = []
 }: CollectWindowStartsOptions) => {
   const starts = new Set<number>()
   const firstWindow = getWindowStart(startRow, totalRows)
@@ -170,6 +172,12 @@ export const collectWindowStarts = ({
     starts.add(clampWindowStart(anchor - direction * step * WINDOW_SIZE, totalRows))
   }
 
+  // An intersecting merge can start far above the current prefetch window.
+  for (const merge of merges) {
+    if (merge.row <= endRow && merge.row + merge.rowspan > startRow) {
+      starts.add(getWindowStart(merge.row, totalRows))
+    }
+  }
   return Array.from(starts)
 }
 

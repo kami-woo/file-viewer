@@ -1350,6 +1350,8 @@ export const createTableConfig = ({
       : undefined,
     // 预览态只开放“拖动扩选”的交互，不允许真正写回单元格内容。
     BEFORE_AUTOFILL_DATA_METHOD: () => [],
+    // Requires the grid's explicit merge viewport support; SPAN_METHOD retains content semantics.
+    MERGED_CELLS: () => virtualState.mergeStartMap.values(),
     SPAN_METHOD: spanMethod,
     HEADER_CELL_STYLE_METHOD: headerStyleMethod,
     BODY_CELL_STYLE_METHOD: styleMethod,
